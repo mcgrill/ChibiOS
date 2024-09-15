@@ -21,6 +21,20 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
+      - run: 
+          name: Install apt dependencies
+          command: sudo apt install p7zip-full gcc-arm-none-eabi binutils-arm-none-eabi
+      - run: 
+          name: Build demo
+          command: |
+            cd ext
+            7za x fatfs-0.13c_patched.7z
+            cd ../demos/STM32/RT-STM32F103-STM3210E_EVAL-FATFS-USB
+            make 
+
+      - store_artifacts:
+          path: ./demos/STM32/RT-STM32F103-STM3210E_EVAL-FATFS-USB/build/ch.elf
+
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
